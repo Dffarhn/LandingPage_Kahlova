@@ -8,12 +8,12 @@ const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 8080;
-app.use(cors)
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(route);
+app.use(cors())
 
 app.get("/", (req, res) => {
   res.send("halo world");
