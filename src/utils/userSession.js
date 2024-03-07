@@ -1,4 +1,4 @@
-import { supabase } from "../../config.js";
+const { supabase } = require("../../config.js");
 
 const checkAuthSession = async (req, res, next) => {
     try {
@@ -24,4 +24,4 @@ const checkAuthSession = async (req, res, next) => {
 };
 
 
-export{checkAuthSession}
+module.exports = {checkAuthSession}

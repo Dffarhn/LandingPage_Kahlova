@@ -1,4 +1,4 @@
-import { supabase } from "../../config.js";
+const { supabase } = require("../../config.js");
 
 
 const GetAllProjectController =  async (req, res) => {
@@ -166,4 +166,4 @@ const UpdateProjectController = async(req,res)=>{
 }
 
 
-export{GetAllProjectController,GetOneProjectController,AddProjectController, UpdateProjectController}
+module.exports={GetAllProjectController,GetOneProjectController,AddProjectController, UpdateProjectController}

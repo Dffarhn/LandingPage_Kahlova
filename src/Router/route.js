@@ -1,11 +1,13 @@
-import {Router} from "express";
-import { supabase } from "../../config.js";
-import { AddProjectController, GetAllProjectController, GetOneProjectController, UpdateProjectController } from "../Controller/project.js";
-import { GetAllMemberController, GetMemberController } from "../Controller/member.js";
-import { checkAuthSession } from "../utils/userSession.js";
-import multer from "multer";
-import { InsertAvatarMemberController } from "../Controller/memberavatar.js";
-import { UploadProjectPicture } from "../Controller/projectpicture.js";
+const express = require("express");
+const multer = require("multer");
+const { Router } = require("express");
+const { supabase } = require("../../config.js");
+const { AddProjectController, GetAllProjectController, GetOneProjectController, UpdateProjectController } = require("../Controller/project.js");
+const { GetAllMemberController, GetMemberController } = require("../Controller/member.js");
+const { checkAuthSession } = require("../utils/userSession.js");
+const { InsertAvatarMemberController } = require("../Controller/memberavatar.js");
+const { UploadProjectPicture } = require("../Controller/projectpicture.js");
+
 
 const route = Router();
 // Set up multer storage
@@ -38,6 +40,7 @@ route.post('/upload-member-avatar', checkAuthSession, upload.single('avatar'),In
         
 //     }
 // })
+
 
 
 
@@ -147,5 +150,5 @@ route.delete('/project', async(req,res) => {
 
 
 
-export {route}
+module.exports = {route}
 

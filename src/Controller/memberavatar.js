@@ -1,5 +1,5 @@
 
-import { supabase } from "../../config.js";
+const { supabase } = require("../../config.js");
 
 const InsertAvatarMemberController = async (req, res) => {
 
@@ -33,4 +33,4 @@ const InsertAvatarMemberController = async (req, res) => {
 }
 
 
-export {InsertAvatarMemberController}
+module.exports= {InsertAvatarMemberController}

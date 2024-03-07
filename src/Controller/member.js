@@ -1,5 +1,4 @@
-import { Url } from "url";
-import { supabase } from "../../config.js";
+const { supabase } = require("../../config.js");
 
 const GetAllMemberController = async(req,res)=>{
     try {
@@ -95,4 +94,4 @@ const GetMemberController = async(req, res) => {
 
 
 
-export {GetAllMemberController,GetMemberController}
+module.exports= {GetAllMemberController,GetMemberController}
