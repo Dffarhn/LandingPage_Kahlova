@@ -7,10 +7,21 @@ const { GetAllMemberController, GetMemberController } = require("../Controller/m
 const { checkAuthSession } = require("../utils/userSession.js");
 const { InsertAvatarMemberController } = require("../Controller/memberavatar.js");
 const { UploadProjectPicture } = require("../Controller/projectpicture.js");
+const cors = require("cors");
 
 
 const route = Router();
 // Set up multer storage
+
+
+route.use(cors());
+
+route.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 //all about member

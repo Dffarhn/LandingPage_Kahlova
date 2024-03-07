@@ -13,9 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(route);
-app.use(cors({
-  origin: "*",
-}));
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("halo world");
