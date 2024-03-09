@@ -174,7 +174,7 @@ const DeleteProjectController = async (req, res) => {
       const { id } = req.body;
   
       // Fetch project photos
-      const { data: projectData } = await supabase
+      const { data: projectData, error:project } = await supabase
         .from('kahlova_project')
         .select('foto_project')
         .eq('id', id);
@@ -187,7 +187,11 @@ const DeleteProjectController = async (req, res) => {
       );
   
       // Delete project record
-      await supabase.from('kahlova_project').delete('id', id);
+      const{data:deletedProject, error:deletedProjectError} = await supabase.from('kahlova_project').delete().eq('id', id);
+      if (deletedProjectError)  {
+        throw deletedProjectError
+        
+      }
   
       res.status(200).send({ msg: 'Deleted successfully' });
     } catch (error) {
