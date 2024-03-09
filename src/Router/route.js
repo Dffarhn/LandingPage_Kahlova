@@ -91,7 +91,6 @@ route.post('/signup_member',async(req,res) =>{
 })
 
 route.post('/signin_member', async (req, res) => {
-
     try {
 
         const {email,password} = req.body
@@ -115,6 +114,11 @@ route.post('/signin_member', async (req, res) => {
     }
 
 
+})
+
+route.get('/signout-member',async(req,res) => {
+    
+    const { error } = await supabase.auth.signOut()
 })
 
 // route.get('/signup_berhasil',async (req, res) => {
