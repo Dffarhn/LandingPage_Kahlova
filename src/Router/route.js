@@ -2,11 +2,11 @@ const express = require("express");
 const multer = require("multer");
 const { Router } = require("express");
 const { supabase } = require("../../config.js");
-const { AddProjectController, GetAllProjectController, GetOneProjectController, UpdateProjectController } = require("../Controller/project.js");
+const { AddProjectController, GetAllProjectController, GetOneProjectController, UpdateProjectController, DeleteProjectController } = require("../Controller/project.js");
 const { GetAllMemberController, GetMemberController } = require("../Controller/member.js");
 const { checkAuthSession } = require("../utils/userSession.js");
 const { InsertAvatarMemberController } = require("../Controller/memberavatar.js");
-const { UploadProjectPicture } = require("../Controller/projectpicture.js");
+const { UploadProjectPicture, UpdateProjectPictureController } = require("../Controller/projectpicture.js");
 const cors = require("cors");
 
 
@@ -51,7 +51,6 @@ route.post('/upload-member-avatar', checkAuthSession, upload.single('avatar'),In
         
 //     }
 // })
-
 
 
 
@@ -133,30 +132,10 @@ route.get('/getproject/:project_id', GetOneProjectController)
 // route.post('/project',upload.array('project',5), AddProjectController)
 route.post('/project',upload.array('project',5), UploadProjectPicture,AddProjectController)
 
-route.patch('/project', UpdateProjectController)
+route.patch('/project',upload.array('projectupdate',5),UpdateProjectPictureController, UpdateProjectController)
 
-route.delete('/project', async(req,res) => {
-
-    try {
-
-        const {id} = req.body
-
-        const {data,error} = await supabase.from("kahlova_project").delete('id',id)
-
-
-        if (error) {
-            throw error
-        }
-
-        res.status(200).send({msg : 'Deleted successfully'})
-        
-    } catch (error) {
-
-        res.status(500).send({msg :"internal server error"})
-        
-    }
-
-})
+route.delete('/project',DeleteProjectController );
+  
 
 
 

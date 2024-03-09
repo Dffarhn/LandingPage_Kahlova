@@ -133,19 +133,22 @@ const UpdateProjectController = async(req,res)=>{
 
 
 
-        const {id, newname, newdescription} = req.body
+        const { id, newname, newdeskripsi, newkategori,newtechmade } = req.body;
+        const newproject_picture = req.update_picture;
 
-        console.log(newname)
+        console.log(newproject_picture);
 
-
-        // const updateproject = {
-        //     'name': newname,
-        //     'deskripsi' : newdescription
-        // }
+        const updateproject = {
+            ...(newname !== undefined && { name: newname }),
+            ...(newdeskripsi !== undefined && { deskripsi: newdeskripsi }),
+            ...(newkategori !== undefined && { kategori: newkategori }),
+            ...(newproject_picture !== undefined && { foto_project: newproject_picture }),
+            ...(newtechmade !== undefined && { foto_project: newtechmade }),
+        };
         
         
         
-        const {data,error} = await supabase.from('kahlova_project').update({nama : newname, deskripsi : newdescription}).eq('id',id)
+        const {data,error} = await supabase.from('kahlova_project').update(updateproject).eq('id',id)
 
         if (error) {
             throw error
@@ -166,4 +169,31 @@ const UpdateProjectController = async(req,res)=>{
 }
 
 
-module.exports={GetAllProjectController,GetOneProjectController,AddProjectController, UpdateProjectController}
+const DeleteProjectController = async (req, res) => {
+    try {
+      const { id } = req.body;
+  
+      // Fetch project photos
+      const { data: projectData } = await supabase
+        .from('kahlova_project')
+        .select('foto_project')
+        .eq('id', id);
+  
+      // Delete photos from storage
+      await Promise.all(
+        projectData[0].foto_project.map(async (photo) => {
+          await supabase.storage.from('project_picture').remove(photo);
+        })
+      );
+  
+      // Delete project record
+      await supabase.from('kahlova_project').delete('id', id);
+  
+      res.status(200).send({ msg: 'Deleted successfully' });
+    } catch (error) {
+      console.error(error); // Log the error for debugging
+      res.status(500).send({ msg: 'Internal server error' });
+    }
+  }
+
+module.exports={GetAllProjectController,GetOneProjectController,AddProjectController, UpdateProjectController,DeleteProjectController}
