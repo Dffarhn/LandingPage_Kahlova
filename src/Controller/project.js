@@ -105,10 +105,12 @@ const AddProjectController = async (req, res) => {
 
         const project_picture = req.projectURL
 
+        const kategoriprojectadd = parseInt(kategoriproject, 10)
+
         const newProject = {
             'nama' : namaproject,
             'deskripsi' : deskripsiproject,
-            'kategori' : kategoriproject,
+            'kategori' : kategoriprojectadd,
             'foto_project' : project_picture,
             'tech_made' : techmade
 
