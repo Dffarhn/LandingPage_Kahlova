@@ -134,11 +134,11 @@ route.get('/getallproject', GetAllProjectController);
 route.get('/getproject/:project_id', GetOneProjectController)
 
 // route.post('/project',upload.array('project',5), AddProjectController)
-route.post('/project',upload.array('project',5), UploadProjectPicture,AddProjectController)
+route.post('/project',checkAuthSession,upload.array('project',5), UploadProjectPicture,AddProjectController)
 
-route.patch('/project',upload.array('projectupdate',5),UpdateProjectPictureController, UpdateProjectController)
+route.patch('/project',checkAuthSession,upload.array('projectupdate',5),UpdateProjectPictureController, UpdateProjectController)
 
-route.delete('/project',DeleteProjectController );
+route.delete('/project',checkAuthSession,DeleteProjectController );
   
 
 
