@@ -147,10 +147,24 @@ route.post('/signin_member', async (req, res) => {
 
 })
 
-route.get('/signout-member',async(req,res) => {
-    
-    const { error } = await supabase.auth.signOut()
-})
+route.get('/signout-member', async (req, res) => {
+    try {
+        const { error } = await supabase.auth.signOut();
+
+        if (error) {
+            // Handle the error, send an appropriate response, or redirect
+            console.error('Sign-out error:', error);
+            return res.status(500).json({ error: 'Failed to sign out' });
+        }
+
+        // Successful sign-out
+        return res.status(200).json({ message: 'Sign out successful' });
+    } catch (error) {
+        // Handle any unexpected errors
+        console.error('Unexpected error during sign-out:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 // route.get('/signup_berhasil',async (req, res) => {
 
