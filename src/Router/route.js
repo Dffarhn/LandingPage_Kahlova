@@ -33,6 +33,37 @@ route.get('/getmember/:member_id', GetMemberController)
 
 route.post('/upload-member-avatar', checkAuthSession, upload.single('avatar'),InsertAvatarMemberController)
 
+
+route.patch('/update-member',async (req, res) => {
+    try {
+        const { id, newname, newposition } = req.body;
+
+        const updatemember = {
+            ...(newname !== undefined && { name: newname }),
+            ...(newposition !== undefined && { position: newposition })
+        };
+
+        const { data, error } = await supabase
+            .from("kahlova_member")
+            .update(updatemember)
+            .eq('id', id);
+
+        if (error) {
+            throw error;
+        }
+
+
+
+
+        res.status(200).send({ msg: 'Member updated successfully', data });
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ msg: 'Internal server error' });
+    }
+});
+
+
 // route.get('/avatar/:member_id', async(req,res)=>{
 
 //     try {
