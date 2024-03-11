@@ -86,6 +86,38 @@ const UpdateProjectPictureController = async (req, res, next) => {
             return filename;
         }));
 
+        // if(req.update_picture.length <= supabase.storage.from('project_kahlova').copy.length){
+        //     //hapus file storage yang melebihi nya
+        // }
+
+        const { data:datafotonow, error:errorfotonow } = await supabase
+        .storage
+        .from('project_picture')
+        .list(`${uuidFolderStorage}`)
+
+        console.log(datafotonow.length)
+
+
+        let databarulength = req.update_picture.length
+
+        while (databarulength < datafotonow.length) {
+
+            const filenamedeleted = `${uuidFolderStorage}/${databarulength}`
+            const { error: removeError } = await supabase
+                .storage
+                .from('project_picture')
+                .remove(filenamedeleted);
+        
+            if (removeError) {
+                // Handle error during file removal (log, throw, etc.)
+                console.error(`Error removing file ${uuidFolderStorage}/${databarulength}:`, removeError);
+                break; // Exit the loop in case of an error
+            }
+        
+            console.log(`File ${uuidFolderStorage}/${databarulength} removed successfully.`);
+            databarulength++;
+        }
+
         next();
     } catch (error) {
         console.error(error);
