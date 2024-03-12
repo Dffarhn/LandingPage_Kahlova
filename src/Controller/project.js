@@ -5,6 +5,8 @@ const GetAllProjectController =  async (req, res) => {
     try {
         const { kategori,sort } = req.query;
 
+        console.log(kategori)
+
         let query = supabase.from("kahlova_project").select("*");
 
         if (kategori) {
@@ -105,12 +107,10 @@ const AddProjectController = async (req, res) => {
 
         const project_picture = req.projectURL
 
-        const kategoriprojectadd = parseInt(kategoriproject, 10)
-
         const newProject = {
             'nama' : namaproject,
             'deskripsi' : deskripsiproject,
-            'kategori' : kategoriprojectadd,
+            'kategori' : kategoriproject,
             'foto_project' : project_picture,
             'tech_made' : techmade
 
