@@ -134,8 +134,11 @@ const UpdateProjectController = async(req,res)=>{
     try {
 
 
+        const id = req.params.project_id
 
-        const { id, newname, newdeskripsi, newkategori,newtechmade } = req.body;
+
+
+        const {newname, newdeskripsi, newkategori,newtechmade } = req.body;
         const newproject_picture = req.update_picture;
 
         console.log(newproject_picture);
@@ -173,7 +176,7 @@ const UpdateProjectController = async(req,res)=>{
 
 const DeleteProjectController = async (req, res) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params.project_id;
   
       // Fetch project photos
       const { data: projectData, error:project } = await supabase
