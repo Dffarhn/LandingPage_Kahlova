@@ -174,7 +174,7 @@ route.get('/signout-member', async (req, res) => {
 
 
 //all about project
-route.get('/getallproject', GetAllProjectController);
+route.get('/projects', GetAllProjectController);
 
 route.get('/project/:project_id', GetOneProjectController)
 
