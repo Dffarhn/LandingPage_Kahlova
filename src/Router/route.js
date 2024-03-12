@@ -176,7 +176,7 @@ route.get('/signout-member', async (req, res) => {
 //all about project
 route.get('/getallproject', GetAllProjectController);
 
-route.get('/getproject/:project_id', GetOneProjectController)
+route.get('/project/:project_id', GetOneProjectController)
 
 // route.post('/project',upload.array('project',5), AddProjectController)
 route.post('/project',upload.array('project',5), UploadProjectPicture,AddProjectController)
