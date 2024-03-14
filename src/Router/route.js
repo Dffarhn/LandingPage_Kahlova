@@ -2,11 +2,16 @@ const express = require("express");
 const multer = require("multer");
 const { Router } = require("express");
 const { supabase } = require("../../config.js");
+
+
 const { AddProjectController, GetAllProjectController, GetOneProjectController, UpdateProjectController, DeleteProjectController } = require("../Controller/project.js");
-const { GetAllMemberController, GetMemberController } = require("../Controller/member.js");
+const { GetAllMemberController, GetMemberController, UpdateMemberController } = require("../Controller/member.js");
 const { checkAuthSession } = require("../utils/userSession.js");
 const { InsertAvatarMemberController } = require("../Controller/memberavatar.js");
 const { UploadProjectPicture, UpdateProjectPictureController } = require("../Controller/projectpicture.js");
+const { SignupMemberController } = require("../Controller/sign_member.js");
+
+
 const cors = require("cors");
 
 
@@ -24,102 +29,17 @@ route.use((req, res, next) => {
 });
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+
+
+
 //all about member
+route.get('/members', GetAllMemberController)
+route.get('/member/:member_id', GetMemberController)
+// route.post('/upload-member-avatar', checkAuthSession, upload.single('avatar'),InsertAvatarMemberController)
+route.patch('/member/:member_id',upload.single('avatar'),InsertAvatarMemberController,UpdateMemberController);
+route.post('/signup_member',SignupMemberController)
 
-route.get('/getallmember', GetAllMemberController)
-
-route.get('/getmember/:member_id', GetMemberController)
-
-
-route.post('/upload-member-avatar', checkAuthSession, upload.single('avatar'),InsertAvatarMemberController)
-
-
-route.patch('/update-member',async (req, res) => {
-    try {
-        const { id, newname, newposition } = req.body;
-
-        const updatemember = {
-            ...(newname !== undefined && { name: newname }),
-            ...(newposition !== undefined && { position: newposition })
-        };
-
-        const { data, error } = await supabase
-            .from("kahlova_member")
-            .update(updatemember)
-            .eq('id', id);
-
-        if (error) {
-            throw error;
-        }
-
-
-
-
-        res.status(200).send({ msg: 'Member updated successfully', data });
-        
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ msg: 'Internal server error' });
-    }
-});
-
-
-// route.get('/avatar/:member_id', async(req,res)=>{
-
-//     try {
-
-
-//         const{data:datamember, error:errormember} = await supabase.from("kahlova_member").select('')
-
-//         const { data, error } = await supabase
-//   .storage
-//   .from('avatars')
-//   .createSignedUrl('folder/avatar1.png', 60)
-
-
-        
-//     } catch (error) {
-        
-//     }
-// })
-
-
-
-route.post('/signup_member',async(req,res) =>{
-
-    try {
-        const {email,name,password,position} = req.body;
-
-        console.log(req.body);
-
-        const { data, error } = await supabase.auth.signUp({
-         email: email,
-         password: password,
-         options :{
-            data:{
-            name : name,
-            position : position}
-
-         }
-
-        })
-        if (error) {
-
-            throw error
-        }
-
-        res.status(201).send({ msg : "success signup", data: data })
-
-
-
-        
-        
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).send('Internal Server Error');
-        
-    }
-})
+//masalah sign_in dan sign_out
 
 route.post('/signin_member', async (req, res) => {
     try {

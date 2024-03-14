@@ -92,6 +92,42 @@ const GetMemberController = async(req, res) => {
 
 }
 
+const UpdateMemberController = async (req, res) => {
+    try {
+
+        const id = req.params.member_id
+        const { newname, newposition } = req.body;
+
+        const newavatar = req.avatarfile
+
+        console.log(newavatar)
+
+        const updatemember = {
+            ...(newname !== undefined && { name: newname }),
+            ...(newposition !== undefined && { position: newposition }),
+            ...(newavatar !== undefined && { avatar_url: newavatar })
+        };
+
+        const { data, error } = await supabase
+            .from("kahlova_member")
+            .update(updatemember)
+            .eq('id', id);
+
+        if (error) {
+            throw error;
+        }
 
 
-module.exports= {GetAllMemberController,GetMemberController}
+
+
+        res.status(200).send({ msg: 'Member updated successfully', data });
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ msg: 'Internal server error' });
+    }
+}
+
+
+
+module.exports= {GetAllMemberController,GetMemberController,UpdateMemberController}
