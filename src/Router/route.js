@@ -59,7 +59,7 @@ route.post('/signin_member', async (req, res) => {
             
         }
 
-        res.cookie('user','dapa',{ maxAge: 900000, httpOnly: true })
+        res.cookie('user',`${data.user.id}`,{ maxAge: 6000, httpOnly: true })
 
         res.status(200).send({msg : "success login", data : data})
         
