@@ -10,6 +10,7 @@ const { checkAuthSession } = require("../utils/userSession.js");
 const { InsertAvatarMemberController } = require("../Controller/memberavatar.js");
 const { UploadProjectPicture, UpdateProjectPictureController } = require("../Controller/projectpicture.js");
 const { SignupMemberController } = require("../Controller/sign_member.js");
+const cookieParser = require('cookie-parser');
 
 
 const cors = require("cors");
@@ -20,6 +21,7 @@ const route = Router();
 
 
 route.use(cors());
+route.use(cookieParser())
 
 route.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
