@@ -19,7 +19,7 @@ app.use(cors());
 
 app.get("/", (req, res) => {
 
-  res.cookie('user','dapa')
+  res.cookie('user','dapa',{ maxAge: 900000, httpOnly: true })
   res.send("halo world");
 });
 
