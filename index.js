@@ -3,6 +3,7 @@ const { createClient } = require("@supabase/supabase-js");
 const bodyParser = require("body-parser");
 const { route } = require("./src/Router/route.js");
 const { supabase } = require("./config.js");
+const cookieParser = require('cookie-parser');
 
 const cors = require("cors");
 
@@ -11,11 +12,14 @@ const port = process.env.PORT || 8080;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser())
 
 app.use(route);
 app.use(cors());
 
 app.get("/", (req, res) => {
+
+  res.cookie('user','dapa')
   res.send("halo world");
 });
 
